@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -37,20 +38,20 @@ public class PhotoBooth extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton cameraButton = (FloatingActionButton) findViewById(R.id.button_camera);
-        cameraButton.setOnClickListener((View.OnClickListener) cameraListener);
+        Button cameraButton = (Button)findViewById(R.id.button_camera);
+        cameraButton.setOnClickListener(cameraListener);
     }
 
-    private DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+    private View.OnClickListener cameraListener = new View.OnClickListener() {
         @Override
-        public void onClick(DialogInterface dialog, int which) {
-            takePhoto(dialog);
+        public void onClick(View v) {
+            takePhoto(v);
         }
     };
 
-    private void takePhoto(DialogInterface dialog)
+    private void takePhoto(View v)
     {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"picture.jpg");
         imageUri = Uri.fromFile(photo);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
