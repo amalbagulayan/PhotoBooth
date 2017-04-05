@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import java.io.FileOutputStream;
 
 import java.io.File;
 import java.net.URI;
@@ -70,6 +71,7 @@ public class PhotoBooth extends AppCompatActivity {
             ContentResolver cr = getContentResolver();
             Bitmap bitmap;
 
+            //display image
             try{
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
                 imageView.setImageBitmap(bitmap);
@@ -79,9 +81,26 @@ public class PhotoBooth extends AppCompatActivity {
                 Log.e(logtag, e.toString());
             }
 
+            //save image
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
+                String root = Environment.getExternalStorageDirectory().toString();
+                File newDir = new File(root + "/saved_images");
+                newDir.mkdirs();
+                String fotoname = "photobooth.jpg";
+                File file = new File (newDir, fotoname);
+                if (file.exists ()) file.delete ();
+                FileOutputStream out = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+                Toast.makeText(getApplicationContext(), "saved to your folder", Toast.LENGTH_SHORT ).show();
+
+            } catch (Exception e) {
+                Log.e(logtag, e.toString());
+            }
+
         }
-
-
     }
 
 
