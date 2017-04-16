@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Date;
 
 public class PhotoBooth extends AppCompatActivity {
 
@@ -102,9 +103,9 @@ public class PhotoBooth extends AppCompatActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
                 String root = Environment.getExternalStorageDirectory().toString();
-                File newDir = new File(root + "/saved_images");
+                File newDir = new File(root + "/PhotoBooth");
                 newDir.mkdirs();
-                String fotoname = "photobooth.jpg";
+                String fotoname = System.currentTimeMillis()+".jpg";
                 File file = new File(newDir, fotoname);
                 if (file.exists()) file.delete();
                 FileOutputStream out = new FileOutputStream(file);
