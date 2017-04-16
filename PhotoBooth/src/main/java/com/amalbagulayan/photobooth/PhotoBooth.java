@@ -67,7 +67,10 @@ public class PhotoBooth extends AppCompatActivity {
 
     private void takePhoto(View v) {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+        String root = Environment.getExternalStorageDirectory().toString();
+        File newDir = new File(root + "/PhotoBooth/Temp");
+        newDir.mkdirs();
+        File photo = new File(newDir, "picture.jpg");
         imageUri = Uri.fromFile(photo);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
